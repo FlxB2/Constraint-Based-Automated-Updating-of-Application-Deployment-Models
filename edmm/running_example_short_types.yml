@@ -1,0 +1,201 @@
+---
+version: edm_1_0
+
+relation_types:
+
+  depends_on:
+    extends: null
+    properties: {}
+    operations:
+      pre_configure_source: {}
+      pre_configure_target: {}
+      post_configure_source: {}
+      post_configure_target: {}
+      target_changed: {}
+      target_removed: {}
+
+  hosted_on:
+    extends: depends_on
+
+  connects_to:
+    extends: depends_on
+
+  subscribes_to:
+    extends: connects_to
+
+
+component_types:
+
+  compute:
+    extends: null
+    properties:
+      ip_address:
+        type: string
+        description: The public IP address assigned for the instance
+      os_family:
+        type: string
+        description: Specifies the type of operating system
+        default: linux
+
+  software_component:
+    extends: null
+  
+  webserver:
+    extends: software_component
+  
+  webapplication:
+    extends: null
+  
+  mysql_dbms-51:
+    extends: software_component
+    properties:
+      root_password:
+        type: string
+        description: the optional root password for the DBMS service
+      port:
+        type: integer
+        description: the port the DBMS service will listen to for data and requests
+    requirements:
+      - host: 
+          capability: ubuntu_12
+    capabilities:
+      - host: dbms_51
+
+  mysql_dbms-57:
+    extends: software_component
+    properties:
+      root_password:
+        type: string
+        description: the optional root password for the DBMS service
+      port:
+        type: integer
+        description: the port the DBMS service will listen to for data and requests
+    requirements:
+      - host: 
+          capability: debian_buster
+    capabilities:
+      - host: dbms_57 
+
+  mysql_db-51:
+    extends: null
+    properties:
+      name:
+        type: string
+        description: the logical name of the database
+      port:
+        type: integer
+        description: the port the underlying database service will listen to for data
+      user:
+        type: string
+        description: the optional user account name for DB administration
+      password:
+        type: string
+        description: the optionak password for the DB user account
+    requirements:
+      - host: 
+          capability: dbms_51
+    capabilities:
+      - connects: db
+
+  mysql_db-57:
+    extends: null
+    properties:
+      name:
+        type: string
+        description: the logical name of the database
+      port:
+        type: integer
+        description: the port the underlying database service will listen to for data
+      user:
+        type: string
+        description: the optional user account name for DB administration
+      password:
+        type: string
+        description: the optionak password for the DB user account
+    requirements:
+      - host: 
+          capability: dbms_57
+    capabilities:
+      - connects: db
+
+  java_webshop-1:
+    extends: null
+    requirements:
+      - host: 
+          capability: java_webcontainer
+
+  tomcat:
+    extends: webserver
+    properties:
+      port:
+        type: integer
+        description: Port number
+        default: 8080
+  
+  tomcat-7:
+    extends: tomcat
+    requirements:
+      - host:
+          capability: hosted_somewhere
+          relation: hostedOn
+      - runtime:
+          capability: java_runtime
+          relation: dependsOn
+    capabilities:
+      - host: java_webcontainer
+
+  java:
+    extends: null
+      
+  java_runtime-8:
+    extends: java
+    requirements:
+      - host:
+          capability: debian_buster
+          relation: hostedOn
+    capabilities:
+      - host: java_runtime_8
+      - host: java_runtime
+  
+  java_runtime-6:
+    extends: java
+    requirements:
+      - host:
+         capability: ubuntu_12
+         relation: hostedOn
+    capabilities:
+      - host: java_runtime_6
+      - host: java_runtime
+
+
+
+  ubuntu:
+    extends: compute
+  
+  ubuntu-16.04:
+    extends: ubuntu
+    capabilities:
+      - host: debian_stretch
+      - host: hosted_somewhere
+    
+  ubuntu-18.04:
+    extends: ubuntu
+    capabilities:
+      - host: debian_buster
+      - host: hosted_somewhere
+  
+  ubuntu-14.04:
+    extends: ubuntu
+    capabilities:
+      - host: debian_jessie
+
+  ubuntu-12.04:
+    extends: ubuntu
+    capabilities:
+      - host: ubuntu_12
+      - host: hosted_somewhere
+
+  hoster-0.1:
+    extends: null
+    capabilities:
+      - host: hypervisor

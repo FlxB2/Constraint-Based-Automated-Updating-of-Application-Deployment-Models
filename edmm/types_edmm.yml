@@ -1,0 +1,242 @@
+---
+version: edm_1_0
+
+relation_types:
+
+  depends_on:
+    extends: null
+    properties: {}
+    operations:
+      pre_configure_source: {}
+      pre_configure_target: {}
+      post_configure_source: {}
+      post_configure_target: {}
+      target_changed: {}
+      target_removed: {}
+
+  hosted_on:
+    extends: depends_on
+
+  connects_to:
+    extends: depends_on
+
+  subscribes_to:
+    extends: connects_to
+
+
+component_types:
+
+  compute:
+    extends: null
+    properties:
+      ip_address:
+        type: string
+        description: The public IP address assigned for the instance
+      os_family:
+        type: string
+        description: Specifies the type of operating system
+        default: linux
+
+  software_component:
+    extends: null
+  
+  webserver:
+    extends: software_component
+  
+  webapplication:
+    extends: null
+  
+  dbms:
+    extends: software_component
+    properties:
+      root_password:
+        type: string
+        description: the optional root password for the DBMS service
+      port:
+        type: integer
+        description: the port the DBMS service will listen to for data and requests
+        
+  database:
+    extends: null
+    properties:
+      name:
+        type: string
+        description: the logical name of the database
+      port:
+        type: integer
+        description: the port the underlying database service will listen to for data
+      user:
+        type: string
+        description: the optional user account name for DB administration
+      password:
+        type: string
+        description: the optionak password for the DB user account
+        
+  container_runtime:
+    extends: software_component
+  
+  container_application:
+    extends: null
+    
+  tomcat:
+    extends: webserver
+    properties:
+      port:
+        type: integer
+        description: Port number
+        default: 8080
+  
+  tomcat_debian-7:
+    extends: tomcat
+    requirements:
+      - host:
+          capability: debian_jessie
+          relation: hostedOn
+      - runtime:
+          capability: java_runtime_7
+          relation: dependsOn
+    capabilities:
+      - host: java_webcontainer
+   
+  tomcat_linux-7:
+    extends: tomcat
+    requirements:
+      - host:
+          capability: linux
+          relation: hostedOn
+      - runtime:
+          capability: java_runtime_7
+          relation: dependsOn
+    capabilities:
+      - host: java_webcontainer
+
+  tomcat_windows-7:
+    extends: tomcat
+    requirements:
+      - host:
+          capability: windows_7
+          relation: hostedOn
+      - runtime:
+         capability: java_runtime_7
+         relation: dependsOn
+    capabilities:
+      - host: java_webcontainer
+      
+  tomcat_debian-8:
+    extends: tomcat
+    requirements:
+      - host:
+         capability: debian_stretch
+         relation: hostedOn
+      - runtime:
+          capability: java_runtime_8
+          relation: dependsOn
+    capabilities:
+      - host: java_webcontainer
+   
+  tomcat_windows-8:
+    extends: tomcat
+    requirements:
+      - host:
+          capability: windows_8
+          relation: hostedOn
+      - runtime:
+          capability: java_runtime_8
+          relation: dependsOn
+    capabilities:
+      - host: java_webcontainer
+  
+  tomcat_debian-9:
+    extends: tomcat
+    requirements:
+      - host:
+          capability: debian_buster
+          relation: hostedOn
+      - runtime:
+          capability: java_runtime_9
+          relation: dependsOn
+    capabilities:
+      - host: java_webcontainer
+      
+  tomcat_windows-9:
+    extends: tomcat
+    requirements:
+      - host:
+          capability: windows_10
+          relation: hostedOn
+      - runtime:
+          capability: java_runtime_9
+          relation: dependsOn
+    capabilities:
+      - host: java_webcontainer
+  
+  java_runtime_windows-8:
+    extends: null
+    requirements:
+      - host:
+          capability: windows_8
+          relation: hostedOn
+    capabilities:
+      - host: java_runtime_8
+      
+  java_runtime_debian-8:
+    extends: null
+    requirements:
+      - host:
+          capability: debian_stretch
+          relation: hostedOn
+    capabilities:
+      - host: java_runtime_8
+      
+  java_runtime_windows-9:
+    extends: null
+    requirements:
+      - host:
+          capability: windows_10
+          relation: hostedOn
+    capabilities:
+      - host: java_runtime_9
+      
+  java_runtime_debian-9:
+    extends: null
+    requirements:
+      - host:
+          capability: debian_buster
+          relation: hostedOn
+    capabilities:
+      - host: java_runtime_9
+   
+  ubuntu:
+    extends: compute
+  
+  ubuntu-16.04:
+    extends: ubuntu
+    requirements:
+      - host:
+          capability: hypervisor
+          relation: hostedOn
+    capabilities:
+      - host: debian_stretch
+    
+  ubuntu-18.04:
+    extends: ubuntu
+    requirements:
+      - host:
+          capability: hypervisor
+          relation: hostedOn
+    capabilities:
+      - host: debian_buster
+  
+  ubuntu-14.04:
+    extends: ubuntu
+    requirements:
+      - host:
+          capability: hypervisor
+          relation: hostedOn
+    capabilities:
+      - host: debian_jessie
+
+  hoster-0.1:
+    extends: null
+    capabilities:
+      - host: hypervisor

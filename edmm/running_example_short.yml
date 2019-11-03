@@ -1,0 +1,33 @@
+---
+version: edm_1_0
+
+description: |
+  the running example without the database, dmbs and second ubuntu os
+
+metadata:
+  maintainer: Felix B.
+
+imports:
+  - running_example_short_types.yml
+
+components:
+
+  ubuntu0:
+    type: ubuntu-12.04
+
+  java-runtime0:
+    type: java_runtime-6
+    relations:
+      - host: ubuntu0
+
+  tomcat0:
+    type: tomcat-7
+    relations:
+      - host: java-runtime0
+      - host: ubuntu0
+
+  webshop0:
+    type: java_webshop-1
+    relations:
+      - host: tomcat0
+      - connectsTo: mysql_db0

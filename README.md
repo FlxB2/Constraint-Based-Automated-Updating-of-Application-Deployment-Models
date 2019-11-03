@@ -2,7 +2,7 @@
 
 This repository contains the prototype for the bachelor thesis    
 "Constraint-Based Automated Updating of Application Deployment Models"   
-The motivating scenario of found in the thesis is included in the edmm/ folder and will be run by default.
+The motivating scenario in the thesis is included in the edmm/ folder and will be run by default.
 
 ## Setup
 This project uses a planner to update deployment models. As of right now, 

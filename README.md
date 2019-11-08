@@ -6,7 +6,18 @@ The motivating scenario in the thesis is included in the edmm/ folder and will b
 
 ## Setup
 This project uses a planner to update deployment models. As of right now, 
-[Fast Downward](http://www.fast-downward.org/) and [Marvin](https://nms.kcl.ac.uk/planning/software/marvin.html) are supported. The path to the executables has to be specified in the [config.ini](https://github.com/FlxB2/Constraint-Based-Automated-Updating-of-Application-Deployment-Models/blob/master/config.ini) file.
+[Fast Downward](http://www.fast-downward.org/) and [Marvin](https://nms.kcl.ac.uk/planning/software/marvin.html) are supported. The path to the executables has to be specified in the [config.ini](https://github.com/FlxB2/Constraint-Based-Automated-Updating-of-Application-Deployment-Models/blob/master/config.ini) file.   
+The prototype can not be run without a planner!
 
 ## Requirements
 can be found in [requirements.txt](https://github.com/FlxB2/Constraint-Based-Automated-Updating-of-Application-Deployment-Models/blob/master/requirements.txt)
+
+```
+pip3 install -r requirement.txt
+```
+installes all necessary requirements for python3
+
+```
+python3 main.py
+```
+runs the prototype

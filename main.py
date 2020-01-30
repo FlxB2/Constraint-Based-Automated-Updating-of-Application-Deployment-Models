@@ -40,11 +40,11 @@ def main():
 	problem_str = gen.generate_problem(topology, resolved_types, goal_state_src)
 
 	print(problem_str)
-	pddl_problem_src = str(Path(config["FILES"]["output_pddl_path"]))
+	pddl_problem_src = str(Path("pddl/running_example.pddl").resolve())
 
 	# write pddl file
-	with open(str(Path(config["FILES"]["output_pddl_path"])), 'w+') as file:
-		file.write(problem_str)
+	# with open(str(Path(config["FILES"]["output_pddl_path"])), 'w+') as file:
+	# 	file.write(problem_str)
 
 	pddl_domain_src = str(Path(config["PDDL"]["domain_path"]).resolve())
 
@@ -71,12 +71,11 @@ def main():
 
 	# contains the topology after every applied step
 	# last one is the updated topology
-	changed_topologies = apply_actions(result, topology, fixed_resolved_types, planner_name)
+	# changed_topologies = apply_actions(result, topology, fixed_resolved_types, planner_name)
 	
-	initial_deployment_model_path = str(Path(config["FILES"]["input_path"]))
-	edmm_output_path = str(Path(config["FILES"]["output_path"]))
-	writer = EDMMWriter(initial_deployment_model_path, resolved_types,edmm_output_path)
-	writer.generate_edmm(changed_topologies[len(changed_topologies)-1])
+	# initial_deployment_model_path = str(Path(config["FILES"]["input_path"]))
+	# edmm_output_path = str(Path(config["FILES"]["output_path"]))
+	# writer = EDMMWriter(initial_deployment_model_path, resolved_types,edmm_output_path)
 
 	# gui(changed_topologies)
 

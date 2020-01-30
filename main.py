@@ -3,7 +3,7 @@ from topology import Topology
 from pddl_generator import Generator
 from apply_actions import apply_actions
 from pddl_helper import to_pddl_compliant_name
-from graph_widget import GraphWidget
+# from graph_widget import GraphWidget
 from planner import Planner
 from marvin_planner import Marvin
 from fast_downward_planner import FastDownward
@@ -13,17 +13,17 @@ import os
 import configparser
 from pathlib import Path
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+# from PyQt5.QtCore import *
+# from PyQt5.QtWidgets import *
+# from PyQt5.QtGui import *
 
-def gui(changed_topologies):
-    app = QApplication(sys.argv)
-    app.aboutToQuit.connect(app.deleteLater)
-    app.setStyle(QStyleFactory.create("gtk"))
-    screen = GraphWidget(changed_topologies) 
-    screen.show()   
-    sys.exit(app.exec_())
+# def gui(changed_topologies):
+#     app = QApplication(sys.argv)
+#     app.aboutToQuit.connect(app.deleteLater)
+#     app.setStyle(QStyleFactory.create("gtk"))
+#     screen = GraphWidget(changed_topologies) 
+#     screen.show()   
+#     sys.exit(app.exec_())
 
 def main():
 	config = configparser.ConfigParser()
@@ -78,7 +78,7 @@ def main():
 	writer = EDMMWriter(initial_deployment_model_path, resolved_types,edmm_output_path)
 	writer.generate_edmm(changed_topologies[len(changed_topologies)-1])
 
-	gui(changed_topologies)
+	# gui(changed_topologies)
 
 if __name__ == "__main__":
 	main()

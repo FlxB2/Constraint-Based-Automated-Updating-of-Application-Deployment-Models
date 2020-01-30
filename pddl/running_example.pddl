@@ -20,6 +20,10 @@
 		comp4 - component
 		comp5 - component
 		comp6 - component
+		comp7 - component
+		comp8 - component
+		comp9 - component
+		comp10 - component
 
 		hosted_on_ubuntu_18 - reqcap
 		hosted_on_ubuntu_8 - reqcap

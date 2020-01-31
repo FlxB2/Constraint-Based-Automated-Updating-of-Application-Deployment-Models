@@ -26,6 +26,8 @@ class FastDownward(Planner):
 			process = Popen(["python3", path, self.domain_file, self.problem_file,
 				'--evaluator', "hcea=cea()",
 				'--search', "lazy_greedy([hcea], preferred=[hcea])"])
+		elif planner_options == "lama-2011":
+			process = Popen(["python3", path, '--alias', 'seq-sat-lama-2011', self.domain_file, self.problem_file])
 		elif planner_options == "landmark-cut":
 			process = Popen(["python3", path, self.domain_file, self.problem_file, '--search', "astar(lmcut())"])
 		elif planner_options == "iPDB":

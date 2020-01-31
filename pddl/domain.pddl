@@ -10,12 +10,14 @@
 		(has_capability ?type - component_type ?cap - reqcap)
 		(connected_with ?source - component ?target - component)
 		(has_parent_type ?childType - abstract_component_type ?parentType - abstract_component_type)
-		
+
+		; derived predicates
 		(check_all_nodes)
 		(of_abstract_type ?comp - component ?parentType - abstract_component_type)
 		(resolve_requirements ?comp - component ?compType - component_type)
 		(resolve_specific_relation ?source - component ?target - component ?req - reqcap)
-		(share_supertype ?type1 - abstract_component_type ?type2 - abstract_component_type))
+		(share_supertype ?type1 - abstract_component_type ?type2 - abstract_component_type)
+	)
 	
 	(:derived (check_all_nodes)
 		(forall (?comp - component)
@@ -105,7 +107,7 @@
 		:parameters (?comp - component ?type - component_type)
 
 		:precondition (and (is_used ?comp)
-						   	(is_of_type ?comp ?type))
+							(is_of_type ?comp ?type))
 
 		:effect (and (not (is_used ?comp))
 					 (not (is_of_type ?comp ?type))))

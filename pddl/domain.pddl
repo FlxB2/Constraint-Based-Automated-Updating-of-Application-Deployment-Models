@@ -10,9 +10,9 @@
 		(has_capability ?type - component_type ?cap - reqcap)
 		(connected_with ?source - component ?target - component)
 		(has_parent_type ?childType - abstract_component_type ?parentType - abstract_component_type)
-		(of_abstract_type ?comp - component ?parentType - abstract_component_type)
 		
 		(check_all_nodes)
+		(of_abstract_type ?comp - component ?parentType - abstract_component_type)
 		(resolve_requirements ?comp - component ?compType - component_type)
 		(resolve_specific_relation ?source - component ?target - component ?req - reqcap)
 		(share_supertype ?type1 - abstract_component_type ?type2 - abstract_component_type))
@@ -74,9 +74,9 @@
 		:parameters (?comp - component ?oldType - component_type ?newType - component_type)
 
 		:precondition (and  (is_of_type ?comp ?oldType) 
-							(exists (?t - abstract_component_type)
-								(and (inherits_from ?oldType ?t)
-									 (inherits_from ?newType ?t))))
+							(exists (?parentType - abstract_component_type)
+								(and (inherits_from ?oldType ?parentType)
+									 (inherits_from ?newType ?parentType))))
 
 		:effect (and (is_of_type ?comp ?newType)
 					 (not(is_of_type ?comp ?oldType))))

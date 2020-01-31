@@ -60,7 +60,7 @@ class Generator:
 					added_reqcaps.append(cap)
 
 			if parent is not None:
-				self.problem.add_init_predicate("has_abstract_type", version.u_name, parent.u_name)
+				self.problem.add_init_predicate("inherits_from", version.u_name, parent.u_name)
 				self.add_type(parent)
 
 	def add_connections(self, topology):

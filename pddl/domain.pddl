@@ -18,7 +18,9 @@
 		(resolve_specific_relation ?source - component ?target - component ?req - reqcap)
 		(share_supertype ?type1 - abstract_component_type ?type2 - abstract_component_type)
 	)
-	
+
+
+
 	(:derived (check_all_nodes)
 		(forall (?comp - component)
 				(or (not (is_used ?comp))
@@ -35,8 +37,8 @@
 		(forall (?req - reqcap)
 				(or (not (has_requirement ?type ?req))
 					(exists (?target - component)
-						(and (resolve_specific_relation ?comp ?target ?req)
-							 (connected_with ?comp ?target))))))
+						(and (connected_with ?comp ?target) 
+							(resolve_specific_relation ?comp ?target ?req))))))
 
 	(:derived (resolve_specific_relation ?source - component ?target - component ?req - reqcap)
 		(exists (?sourceType - component_type ?targetType - component_type)
@@ -52,63 +54,52 @@
 				(and (has_parent_type ?type1 ?super)
 					(has_parent_type ?type2 ?super))))
 
+
+
 	(:action connect_components 
 		:parameters (?source - component ?sourceType - component_type ?target - component ?targetType - component_type)
-
 		:precondition (and  (not (connected_with ?source ?target))
 							(is_of_type ?source ?sourceType)
 							(is_of_type ?target ?targetType)
 							(exists (?req - reqcap)
 								(and (has_requirement ?sourceType ?req)
 									(has_capability ?targetType ?req))))
-
 		:effect (connected_with ?source ?target))
 
 	(:action disconnect_components
 		:parameters (?source - component ?target - component)
-
 		:precondition (connected_with ?source ?target)
-					
 		:effect (not (connected_with ?source ?target)))
-
 
 	(:action change_type
 		:parameters (?comp - component ?oldType - component_type ?newType - component_type)
-
 		:precondition (and  (is_of_type ?comp ?oldType) 
 							(exists (?parentType - abstract_component_type)
 								(and (inherits_from ?oldType ?parentType)
 									 (inherits_from ?newType ?parentType))))
-
 		:effect (and (is_of_type ?comp ?newType)
 					 (not(is_of_type ?comp ?oldType))))
 
 	(:action change_type_by_ancestor
 		:parameters (?comp - component ?compType - component_type ?compAbstractType - abstract_component_type ?newType - component_type ?newAbstractType - abstract_component_type)
-
 		:precondition (and  (is_of_type ?comp ?compType) 
 							(inherits_from ?compType ?compAbstractType)
 							(inherits_from ?newType ?newAbstractType) 
 							(not (= ?newAbstractType ?compAbstractType))
 							(share_supertype ?compAbstractType ?newAbstractType))
-
 		:effect (and (is_of_type ?comp ?newType)
 					 (not (is_of_type ?comp ?compType))))
 
 	(:action add_component
 		:parameters (?comp - component ?type - component_type)
-
 		:precondition (not (is_used ?comp))
-
 		:effect (and (is_used ?comp)
 					(is_of_type ?comp ?type)))
 
 	(:action remove_component
 		:parameters (?comp - component ?type - component_type)
-
 		:precondition (and  (is_used ?comp)
 							(is_of_type ?comp ?type))
-
 		:effect (and (not (is_used ?comp))
 					 (not (is_of_type ?comp ?type))))
 )

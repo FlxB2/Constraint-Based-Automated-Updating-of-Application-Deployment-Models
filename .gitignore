@@ -121,3 +121,6 @@ current_output.pddl
 ba_env/
 /execution_logs
 output.sas
+
+# ignore changes at the config.ini
+config.ini

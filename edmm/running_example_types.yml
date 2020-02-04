@@ -39,15 +39,21 @@ component_types:
 
   software_component:
     extends: null
-  
+
   webserver:
     extends: software_component
   
   webapplication:
     extends: null
-  
-  mysql_dbms-51:
+
+  dbms:
     extends: software_component
+
+  mysql_dbms:
+    extends: dbms
+
+  mysql_dbms-51:
+    extends: mysql_dbms
     properties:
       root_password:
         type: string
@@ -62,7 +68,7 @@ component_types:
       - host: dbms_51
 
   mysql_dbms-57:
-    extends: software_component
+    extends: mysql_dbms
     properties:
       root_password:
         type: string
@@ -76,8 +82,14 @@ component_types:
     capabilities:
       - host: dbms_57 
 
-  mysql_db-51:
+  database:
     extends: null
+
+  mysql_db:
+    extends: database
+
+  mysql_db-51:
+    extends: mysql_db
     properties:
       name:
         type: string
@@ -98,7 +110,7 @@ component_types:
       - connects: db
 
   mysql_db-57:
-    extends: null
+    extends: mysql_db
     properties:
       name:
         type: string

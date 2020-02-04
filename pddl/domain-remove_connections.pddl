@@ -110,5 +110,12 @@
 							(is_of_type ?comp ?type))
 
 		:effect (and (not (is_used ?comp))
-					 (not (is_of_type ?comp ?type))))
+					(not (is_of_type ?comp ?type))
+					(forall (?source - component) 
+						(when (and (is_used ?source) (connected_with ?source ?comp))
+							(not (connected_with ?source ?comp))))
+					(forall (?target - component) 
+						(when (and (is_used ?target) (connected_with ?comp ?target))
+							(not (connected_with ?comp ?target))))
+				))
 )

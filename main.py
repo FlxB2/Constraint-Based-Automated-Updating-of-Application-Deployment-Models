@@ -3,7 +3,7 @@ from topology import Topology
 from pddl_generator import Generator
 from apply_actions import apply_actions
 from pddl_helper import to_pddl_compliant_name
-from graph_widget import GraphWidget
+# from graph_widget import GraphWidget
 from planner import Planner
 from marvin_planner import Marvin
 from fast_downward_planner import FastDownward
@@ -13,17 +13,17 @@ import os
 import configparser
 from pathlib import Path
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+# from PyQt5.QtCore import *
+# from PyQt5.QtWidgets import *
+# from PyQt5.QtGui import *
 
-def gui(changed_topologies):
-    app = QApplication(sys.argv)
-    app.aboutToQuit.connect(app.deleteLater)
-    app.setStyle(QStyleFactory.create("gtk"))
-    screen = GraphWidget(changed_topologies) 
-    screen.show()   
-    sys.exit(app.exec_())
+# def gui(changed_topologies):
+#     app = QApplication(sys.argv)
+#     app.aboutToQuit.connect(app.deleteLater)
+#     app.setStyle(QStyleFactory.create("gtk"))
+#     screen = GraphWidget(changed_topologies) 
+#     screen.show()   
+#     sys.exit(app.exec_())
 
 def main():
 	config = configparser.ConfigParser()
@@ -41,6 +41,8 @@ def main():
 
 	print(problem_str)
 	pddl_problem_src = str(Path(config["FILES"]["output_pddl_path"]))
+	# pddl_problem_src = str(Path("current_output.pddl").resolve())
+	# pddl_problem_src = str(Path("pddl/running_example.pddl").resolve())
 
 	# write pddl file
 	with open(str(Path(config["FILES"]["output_pddl_path"])), 'w+') as file:
@@ -71,14 +73,13 @@ def main():
 
 	# contains the topology after every applied step
 	# last one is the updated topology
-	changed_topologies = apply_actions(result, topology, fixed_resolved_types, planner_name)
+	# changed_topologies = apply_actions(result, topology, fixed_resolved_types, planner_name)
 	
-	initial_deployment_model_path = str(Path(config["FILES"]["input_path"]))
-	edmm_output_path = str(Path(config["FILES"]["output_path"]))
-	writer = EDMMWriter(initial_deployment_model_path, resolved_types,edmm_output_path)
-	writer.generate_edmm(changed_topologies[len(changed_topologies)-1])
+	# initial_deployment_model_path = str(Path(config["FILES"]["input_path"]))
+	# edmm_output_path = str(Path(config["FILES"]["output_path"]))
+	# writer = EDMMWriter(initial_deployment_model_path, resolved_types,edmm_output_path)
 
-	gui(changed_topologies)
+	# gui(changed_topologies)
 
 if __name__ == "__main__":
 	main()

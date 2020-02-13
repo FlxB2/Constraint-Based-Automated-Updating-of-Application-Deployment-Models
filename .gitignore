@@ -109,6 +109,8 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/python
 
+# PyCharm
+/.idea
 
 # Custom
 sas_plan
@@ -117,3 +119,8 @@ sas_plan.*
 output.yml
 current_output.pddl
 ba_env/
+/execution_logs
+output.sas
+
+# ignore changes at the config.ini
+config.ini

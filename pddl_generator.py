@@ -15,7 +15,7 @@ class Generator:
 		for component in topology.components:
 			version = component.component_type
 			self.problem.add_init_predicate("is_used", component.u_name)
-			self.problem.add_init_predicate("has_type", component.u_name, version.u_name)
+			self.problem.add_init_predicate("is_of_type", component.u_name, version.u_name)
 			self.problem.add_object(component.u_name, "component")
 
 	def add_type(self, component_type):
@@ -60,7 +60,7 @@ class Generator:
 					added_reqcaps.append(cap)
 
 			if parent is not None:
-				self.problem.add_init_predicate("has_abstract_type", version.u_name, parent.u_name)
+				self.problem.add_init_predicate("inherits_from", version.u_name, parent.u_name)
 				self.add_type(parent)
 
 	def add_connections(self, topology):

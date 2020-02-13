@@ -12,7 +12,29 @@ class FastDownward(Planner):
 		path = str(Path(config["EXEC"]["fast_downward_exec"]).resolve())
 		print(Path(config["EXEC"]["fast_downward_exec"]))
 
-		process = Popen(["python3", path, self.domain_file, self.problem_file, '--search', "astar(blind())"])
+		planner_options = config["EXEC"]["fast_downward_options"]
+
+		if planner_options == "fFyY":
+			process = Popen(["python3", path, self.domain_file, self.problem_file,
+				'--evaluator', "hff=ff()", '--evaluator', "hcea=cea()",
+				'--search', "lazy_greedy([hff, hcea], preferred=[hff, hcea])"])
+		elif planner_options == "fF":
+			process = Popen(["python3", path, self.domain_file, self.problem_file,
+				'--evaluator', "hff=ff()",
+				'--search', "lazy_greedy([hff], preferred=[hff])"])
+		elif planner_options == "yY":
+			process = Popen(["python3", path, self.domain_file, self.problem_file,
+				'--evaluator', "hcea=cea()",
+				'--search', "lazy_greedy([hcea], preferred=[hcea])"])
+		elif planner_options == "lama-2011":
+			process = Popen(["python3", path, '--alias', 'seq-sat-lama-2011', self.domain_file, self.problem_file])
+		elif planner_options == "landmark-cut":
+			process = Popen(["python3", path, self.domain_file, self.problem_file, '--search', "astar(lmcut())"])
+		elif planner_options == "iPDB":
+			process = Popen(["python3", path, self.domain_file, self.problem_file, '--search', "astar(ipdb())"])
+		else:
+			process = Popen(["python3", path, self.domain_file, self.problem_file, '--search', "astar(blind())"])
+
 		print(str(process))
 		(output, err) = process.communicate()
 		exit_code = process.wait()

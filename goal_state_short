@@ -1,2 +1,2 @@
-(has_type ubuntu0 ubuntu-18.04)
-(has_type webshop0 java_webshop-1)
+( is_of_type ubuntu0 ubuntu-18.04 )
+ (is_of_type webshop0 java_webshop-1 )

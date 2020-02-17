@@ -1,5 +1,5 @@
 (define (domain deployment_domain)
-	(:requirements :typing :derived-predicates :strips :existential-preconditions :equality)
+	(:requirements :typing :derived-predicates :strips :equality)
 	(:types component_type abstract_component_type component reqcap)
 	(:constants )
 	(:predicates 

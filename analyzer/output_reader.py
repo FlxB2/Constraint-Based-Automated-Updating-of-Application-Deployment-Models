@@ -1,6 +1,7 @@
 class Output_Reader:
 
 	parslets = {}
+	parslets_dict = {}
 	report = None
 
 	def init(self, output):

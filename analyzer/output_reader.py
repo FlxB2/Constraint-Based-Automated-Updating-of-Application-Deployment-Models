@@ -1,3 +1,5 @@
+import uuid
+
 class Output_Reader:
 
 	parslets = {}
@@ -9,7 +11,11 @@ class Output_Reader:
 
 	# calls the specified function for the parslet
 	def parse_parslet(self, parslet):
-		parslet.function_to_call(parslet.string_to_parse)
+		if(len(parslet.snippets_to_parse) == 0): 
+			return
+
+		for snippet in parslet.snippets_to_parse:
+			parslet.function_to_call(snippet)
 
 	# this function finds the parslet snippets in the output string of the planner
 	# in which we are interested in
@@ -18,22 +24,26 @@ class Output_Reader:
 	def parse_output(self, output):
 		self.init(output)
 
-		self.parslets_dict = {parslet.starts_with:parslet for parslet in self.parslets}
+		self.parslets_dict = {parslet.prefix:parslet for parslet in self.parslets}
 
-		list_open_parslets = []
-		list_complete_parslets = []
+		open_parslets = []
 		for line in output.splitlines():
+			for open_parslet in open_parslets:
+				open_parslet.append_to_snippet(line + "\n")
+
+				if line.startswith(open_parslet.last_line_prefix):
+					if(not (open_parslet.prefix == open_parslet.last_line_prefix and 
+						len(open_parslet.partial_snippet.splitlines()) == 1)):
+						open_parslet.save_snippet()
+						open_parslets.remove(open_parslet)
+
 			for prefix in self.parslets_dict.keys():
-				if line.startswith(prefix):
-					list_open_parslets.append(self.parslets_dict[prefix])
+				if (line.startswith(prefix) and 
+					not self.parslets_dict[prefix] in open_parslets):
+					self.parslets_dict[prefix].append_to_snippet(line + "\n")
+					open_parslets.append(self.parslets_dict[prefix])
 
-			for open_parslet in list_open_parslets:
-				if line.startswith(open_parslet.ends_with):
-					list_open_parslets.remove(open_parslet)
-					list_complete_parslets.append(open_parslet)
-				open_parslet.string_to_parse += line + "\n"
-
-		for parslet in list_complete_parslets:
+		for parslet in self.parslets_dict.values():
 			self.parse_parslet(parslet)
 
 		return self.report
@@ -41,17 +51,24 @@ class Output_Reader:
 # parslets describe the part of the output we are interested in and the correct function
 # to parse this part of the planner output
 class Parslet:
-
-	starts_with = None
-	ends_with = None
+	prefix = None
+	last_line_prefix = None
 	function_to_call = None
-	string_to_parse = ""
+	snippets_to_parse = []
+	partial_snippet = ""
 
-	def __init__(self, function_to_call, starts_with, ends_with=None):
-		self.starts_with = starts_with
+	def __init__(self, function_to_call, prefix, last_line_prefix=None):
+		self.prefix = prefix
 		# if no end is given, only one line will be considered
-		if ends_with:
-			self.ends_with = ends_with
+		if last_line_prefix:
+			self.last_line_prefix = last_line_prefix
 		else:
-			self.ends_with = starts_with
+			self.last_line_prefix = prefix
 		self.function_to_call = function_to_call
+
+	def append_to_snippet(self, content):
+		self.partial_snippet += content
+
+	def save_snippet(self):
+		self.snippets_to_parse.append(self.partial_snippet)
+		self.partial_snippet = ""

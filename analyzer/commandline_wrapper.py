@@ -30,6 +30,10 @@ def parse_planner_output(output):
 		report = reader.parse_output(output)
 		print(report)
 
+	reader = Jasper_Output_Reader()
+	for output in jasper_output_list:
+		report = reader.parse_output(output)
+		print(report)
 
 content = ""
 for line in fileinput.input():

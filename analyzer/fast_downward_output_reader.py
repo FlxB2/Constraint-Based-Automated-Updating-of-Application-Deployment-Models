@@ -25,6 +25,7 @@ class Fast_Downward_Output_Reader(Output_Reader):
 	def parse_plan(self, args):
 		self.solution_found = True
 		lines = args.splitlines()
+		print(lines)
 		exec_time = re.search(r'\d+\.\d+', lines[1]).group(0)
 		plan_length = re.findall(r'\d', lines[-2])[0]
 		plan_cost = re.findall(r'\d', lines[-1])[0]

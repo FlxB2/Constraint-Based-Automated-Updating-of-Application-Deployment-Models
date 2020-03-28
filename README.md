@@ -32,17 +32,15 @@ runs the prototype
 The script ``` analyzer/commandline_wrapper.py ``` is able to analyze outputs of the following planners: [Jasper](https://www.semanticscholar.org/paper/Jasper-%3A-the-Art-of-Exploration-in-Greedy-Best-Xie-M%C3%BCller/70b994eee371224a4530b602118cfc556c309f4b) and [Fast Downward](http://www.fast-downward.org/). Support for Marvin might be added in the future.  
 
 ### Usage
-The analyzer can be used by piping the output to the script.   
-Example: ``` cat output_file | python3 commandline_wrapper.py ```      
-Multiple outputs of different planners can be merged in a single file. But above each output a line has to be added which tells the analyzer what kind of planner has produced the output.   
-Example for a single Fast Downward output file:      
+The analyzer can be used by piping the output to the script. Example: ``` cat output_file | python3 commandline_wrapper.py ```. Multiple outputs of different planners can be merged in a single file. But above each output a line has to be added which tells the analyzer what kind of planner has produced the output.   
+Example for a single Fast Downward output:      
 ```
 <<<<FD>>>>
 INFO     Running translator.
 INFO     translator stdin: None
 ...
 ```
-Example for a single Jasper output file:      
+Example for a single Jasper output:      
 ```
 <<<<JASPER>>>>
 1. Running translator

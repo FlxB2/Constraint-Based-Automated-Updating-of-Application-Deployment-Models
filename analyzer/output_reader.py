@@ -33,9 +33,9 @@ class Output_Reader:
 						# does the current line satisfy the stopping condition?
 						if line.startswith(parslet.last_line_prefix):
 							parslet.save_snippet()
-				else:
-					if line.startswith(parslet.prefix):
-						parslet.append_to_snippet(line + "\n")
+							
+				if line.startswith(parslet.prefix):
+					parslet.append_to_snippet(line + "\n")
 
 		for parslet in self.parslets:
 			self.parse_parslet(parslet)

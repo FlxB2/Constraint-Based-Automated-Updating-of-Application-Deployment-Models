@@ -1,19 +1,25 @@
 class Plan:
 
-	def __init__(self, execution_time, number_steps, cost, actions, name=""):
+	def __init__(self, execution_time, number_steps, 
+				actions, cost="", name="", arguments=""):
 		self.name = name
 		# time in seconds!
 		self.execution_time = execution_time
 		self.number_steps = number_steps
 		self.cost = cost
 		self.actions = actions
+		self.arguments = arguments
 
 	def __str__(self):
-		res =  ("PLAN " + self.name + "\n" 
-			+ "exec time " + self.execution_time + "s\n" 
-			+ "number steps " + self.number_steps + "\n")
+		res =  ("PLAN " + self.name + "\n"
+			+ "exec time " + str(self.execution_time) + "s\n"
+			+ "number steps " + str(self.number_steps) + "\n")
+
+		if self.arguments != "":
+			res += "arguments " + self.arguments + "\n"
+
 		for action in self.actions.splitlines():
-			res += action + "\n"
+			res += "\t" + action + "\n"
 		return res
 
 class Report:
@@ -51,7 +57,7 @@ class Report:
 		return execution_times[str(result_key)]
 
 	def add_line(self, line):
-		return "\t" + line + "\n"
+		return line + "\n"
 
 	def add_indented_line(self, line):
 		return "\t" + self.add_line(line)

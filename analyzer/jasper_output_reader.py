@@ -42,10 +42,11 @@ class Jasper_Output_Reader(Output_Reader):
 				plan_cost = re.findall(r'\d', line)[0]
 			elif("Actual search time:" in line):
 				exec_time = re.findall(r'\d+\.\d+', line)[0]
-			counter+=1				
+			counter+=1			
 
 		actions = "\n".join(lines[plan_start_index:plan_end_index])
-		plan = Plan(exec_time, plan_length, plan_cost, actions, str(len(self.report.plans)))
+		plan = Plan(exec_time, plan_length, 
+			actions, cost=plan_cost, name=str(len(self.report.plans)))
 		self.report.plans.append(plan)
 
 	# Example parslet:

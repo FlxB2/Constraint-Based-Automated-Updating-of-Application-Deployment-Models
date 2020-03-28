@@ -31,7 +31,8 @@ class Fast_Downward_Output_Reader(Output_Reader):
 		actions = ""
 		for i in range(2,len(lines)-2):
 			actions += re.sub(r'\(.*\)', "", lines[i]) + "\n"
-		plan = Plan(exec_time, plan_length, plan_cost, actions, str(len(self.report.plans)))
+		plan = Plan(exec_time, plan_length, 
+			actions, cost=plan_cost, name=str(len(self.report.plans)))
 		self.report.plans.append(plan)
 		
 		

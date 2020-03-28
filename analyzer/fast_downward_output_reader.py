@@ -1,5 +1,5 @@
 from output_reader import Output_Reader
-from output_reader import Parslet
+from parslet import Parslet
 from report import Report
 from report import Plan
 import re
@@ -8,7 +8,7 @@ class Fast_Downward_Output_Reader(Output_Reader):
 
 	planner_name = "fast_downward"
 
-	def init(self, output):
+	def __init__(self):
 		self.report = Report("fast_downward", self.planner_name)
 		self.parslets = [Parslet(self.parse_plan, "Solution found!", "Plan cost:"), 
 				Parslet(self.parse_time, "Search time:"),
@@ -25,7 +25,6 @@ class Fast_Downward_Output_Reader(Output_Reader):
 	def parse_plan(self, args):
 		self.solution_found = True
 		lines = args.splitlines()
-		print(lines)
 		exec_time = re.search(r'\d+\.\d+', lines[1]).group(0)
 		plan_length = re.findall(r'\d', lines[-2])[0]
 		plan_cost = re.findall(r'\d', lines[-1])[0]
@@ -40,6 +39,8 @@ class Fast_Downward_Output_Reader(Output_Reader):
 	#	Search time: 4.83256s
 	def parse_time(self, args):
 		lines = args.splitlines()
+		if(len(lines) != 1): return
+
 		search_time = re.search(r'\d+\.\d+', lines[0]).group(0)		
 		self.report.execution_time = search_time
 

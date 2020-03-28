@@ -1,5 +1,5 @@
 from output_reader import Output_Reader
-from output_reader import Parslet
+from parslet import Parslet
 from report import Report
 from report import Plan
 import re
@@ -8,7 +8,7 @@ class Jasper_Output_Reader(Output_Reader):
 
 	planner_name = "jasper"
 
-	def init(self, output):
+	def __init__(self):
 		self.report = Report("jasper", self.planner_name)
 		self.parslets = [Parslet(self.parse_plan, "Starting search:", "Starting search:"),
 		Parslet(self.parse_time, "Search time:")]
@@ -35,7 +35,7 @@ class Jasper_Output_Reader(Output_Reader):
 		for line in lines:
 			if("Real Total time" in line):
 				plan_start_index = counter+1
-			elif("Plan length" in line):
+			elif("Plan length" in line and plan_end_index == 0):
 				plan_end_index = counter
 				plan_length = re.findall(r'\d', line)[0]
 			elif("Plan cost" in line):

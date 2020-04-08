@@ -26,7 +26,7 @@
 				(or (not (is_used ?comp))
 					(exists (?type - component_type)
 						(and (is_of_type ?comp ?type)
-					 		(resolve_requirements ?comp ?type))))))
+					 		 (resolve_requirements ?comp ?type))))))
 
 	(:derived (of_abstract_type ?comp - component ?parentType - abstract_component_type)
 		(exists (?type - component_type)
@@ -52,7 +52,7 @@
 	(:derived (share_supertype ?type1 - abstract_component_type ?type2 - abstract_component_type)
 			(exists (?super - abstract_component_type)
 				(and (has_parent_type ?type1 ?super)
-					(has_parent_type ?type2 ?super))))
+					 (has_parent_type ?type2 ?super))))
 
 
 
@@ -77,15 +77,15 @@
 							(exists (?parentType - abstract_component_type)
 								(and (inherits_from ?oldType ?parentType)
 									 (inherits_from ?newType ?parentType))))
-		:effect (and (is_of_type ?comp ?newType)
-					 (not(is_of_type ?comp ?oldType))))
+		:effect (and (not (is_of_type ?comp ?oldType))
+					 (is_of_type ?comp ?newType)))
 
 	(:action change_type_by_ancestor
 		:parameters (?comp - component ?compType - component_type ?compAbstractType - abstract_component_type ?newType - component_type ?newAbstractType - abstract_component_type)
-		:precondition (and  (is_of_type ?comp ?compType) 
+		:precondition (and  (not (= ?newAbstractType ?compAbstractType))
+							(is_of_type ?comp ?compType)
 							(inherits_from ?compType ?compAbstractType)
 							(inherits_from ?newType ?newAbstractType) 
-							(not (= ?newAbstractType ?compAbstractType))
 							(share_supertype ?compAbstractType ?newAbstractType))
 		:effect (and (is_of_type ?comp ?newType)
 					 (not (is_of_type ?comp ?compType))))
@@ -94,12 +94,15 @@
 		:parameters (?comp - component ?type - component_type)
 		:precondition (not (is_used ?comp))
 		:effect (and (is_used ?comp)
-					(is_of_type ?comp ?type)))
+					 (is_of_type ?comp ?type)))
 
 	(:action remove_component
 		:parameters (?comp - component ?type - component_type)
 		:precondition (and  (is_used ?comp)
 							(is_of_type ?comp ?type))
 		:effect (and (not (is_used ?comp))
-					 (not (is_of_type ?comp ?type))))
+					 (not (is_of_type ?comp ?type))
+					 (forall (?connectedComponent - component) 
+					 	(and (not (connected_with ?comp ?connectedComponent))
+						 	 (not (connected_with ?connectedComponent ?comp))))))
 )

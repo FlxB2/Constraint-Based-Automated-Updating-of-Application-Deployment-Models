@@ -6,4 +6,4 @@ backports.functools_lru_cache==1.6.0
 ipaddr==2.2.0
 setuptools_svn==1.2
 wincertstore==0.2
-PyYAML==5.1.2
+PyYAML==5.4
